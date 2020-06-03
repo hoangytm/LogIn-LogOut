@@ -13,11 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/authen")
 public class AuthenController {
     @GetMapping
-    public String checkAuthen(){
+    public String checkAuthen() {
         return " success";
     }
+
     @GetMapping("/au")
-    public String notAuthen() throws BusinessException {
-        return "failed";
+    public String notAuthen() {
+        System.out.println("please say something");
+        throw new BusinessException("sai mat khuA");
+//        return "failed";
     }
 }
