@@ -2,6 +2,7 @@ package com.programming.hoangpn.Login_LogOut.security;
 
 import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -66,7 +67,13 @@ public class JwtProvider {
     }
 
     public boolean validateToken(String jwt) {
-        parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        try {
+            parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
+        } catch (ExpiredJwtException e) {
+            throw new BusinessException("token expired");
+        } catch (Exception e) {
+            throw new BusinessException("token không đung định dạng");
+        }
         return true;
     }
 
