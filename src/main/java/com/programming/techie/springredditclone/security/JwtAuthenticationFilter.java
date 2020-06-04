@@ -44,10 +44,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        }catch (ExpiredJwtException e){
-              throw new BusinessException("token bị hết hạn");
+            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {
+            throw new BusinessException("token bị hết hạn");
         }
-        filterChain.doFilter(request, response);
+
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
