@@ -1,6 +1,7 @@
 package com.programming.hoangpn.Login_LogOut.config;
 
 import com.programming.hoangpn.Login_LogOut.security.JwtAuthenticationFilter;
+import com.programming.hoangpn.Login_LogOut.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -31,13 +32,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
+
         httpSecurity.csrf().disable()
                 .authorizeRequests()
+//                .antMatchers("/authen").access("hasRole('ROLE_AMIN')")
                 .antMatchers("/api/auth/**")
                 .permitAll()
                 .anyRequest()
-                .authenticated();
-        httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                .authenticated()
+                .and()
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
     }
 

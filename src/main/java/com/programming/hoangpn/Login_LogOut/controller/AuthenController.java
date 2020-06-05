@@ -20,6 +20,6 @@ public class AuthenController {
     public String notAuthen() {
         System.out.println("please say something");
 //        throw new BusinessException("sai mat khuA");
-        return "failed";
+        return "success";
     }
 }
