@@ -23,7 +23,6 @@ public class VerificationToken {
     private Long id;
     @Column(name = "TOKEN")
     private String token;
-
     @OneToOne(fetch = LAZY)
     private User user;
     @Column(name = "EXPIRY_DATE")

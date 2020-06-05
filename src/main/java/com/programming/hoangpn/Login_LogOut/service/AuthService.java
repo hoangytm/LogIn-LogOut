@@ -1,6 +1,7 @@
 package com.programming.hoangpn.Login_LogOut.service;
 
 import com.programming.hoangpn.Login_LogOut.dto.AuthenticationResponse;
+import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
 import com.programming.hoangpn.Login_LogOut.security.JwtProvider;
 import com.programming.hoangpn.Login_LogOut.dto.LoginRequest;
 import com.programming.hoangpn.Login_LogOut.dto.RefreshTokenRequest;
@@ -47,19 +48,24 @@ public class AuthService {
     }
 
     public AuthenticationResponse login(LoginRequest loginRequest) {
+        try {
+            Authentication authenticate = authenticationManager
+                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername()
+                            , loginRequest.getPassword())
+                    );
+            SecurityContextHolder.getContext().setAuthentication(authenticate);
+            String token = jwtProvider.generateToken(authenticate);
+            return AuthenticationResponse.builder()
+                    .authenticationToken(token)
+                    .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                    .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                    .username(loginRequest.getUsername())
+                    .build();
+        } catch (Exception e){
+            throw new BusinessException("username or password incorrect");
+        }
 
-        Authentication authenticate = authenticationManager
-                .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername()
-                        , loginRequest.getPassword())
-                );
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
-        String token = jwtProvider.generateToken(authenticate);
-        return AuthenticationResponse.builder()
-                .authenticationToken(token)
-                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
-                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
-                .username(loginRequest.getUsername())
-                .build();
+
     }
 
     public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
