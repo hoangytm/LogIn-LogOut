@@ -1,9 +1,4 @@
 package com.programming.hoangpn.Login_LogOut.config;
-
-/**
- * @author PhanHoang
- * 6/5/2020
- */
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +6,11 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * @author PhanHoang
+ * 6/5/2020
+ */
 
 @Component
 @Primary
