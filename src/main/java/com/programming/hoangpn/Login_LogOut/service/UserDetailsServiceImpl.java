@@ -1,5 +1,6 @@
 package com.programming.hoangpn.Login_LogOut.service;
 
+import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
 import com.programming.hoangpn.Login_LogOut.model.User;
 import com.programming.hoangpn.Login_LogOut.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -28,7 +29,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = userOptional
-                .orElseThrow(() -> new UsernameNotFoundException("No user " +
+                .orElseThrow(() -> new BusinessException("No user " +
                         "Found with username : " + username));
 
         return new org.springframework.security
