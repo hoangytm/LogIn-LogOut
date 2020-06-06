@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+import static com.programming.hoangpn.Login_LogOut.ultils.ConvertToJson.convertObjectToJson;
+
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -51,15 +53,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
     }
-
-    public String convertObjectToJson(Object object) throws JsonProcessingException {
-        if (object == null) {
-            return null;
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(object);
-    }
-
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
 
