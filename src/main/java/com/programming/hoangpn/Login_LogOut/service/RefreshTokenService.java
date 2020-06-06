@@ -17,7 +17,7 @@ public class RefreshTokenService {
 
     private final RefreshTokenRepository refreshTokenRepository;
 
-    public RefreshToken generateRefreshToken() {
+    public RefreshToken generateRefreshToken() throws BusinessException{
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setToken(UUID.randomUUID().toString());
         refreshToken.setCreatedDate(Instant.now());
@@ -25,12 +25,12 @@ public class RefreshTokenService {
         return refreshTokenRepository.save(refreshToken);
     }
 
-    void validateRefreshToken(String token) {
+    void validateRefreshToken(String token) throws BusinessException{
         refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new BusinessException("Invalid refresh Token"));
     }
 
-    public void deleteRefreshToken(String token) {
+    public void deleteRefreshToken(String token) throws BusinessException{
         refreshTokenRepository.deleteByToken(token);
     }
 }

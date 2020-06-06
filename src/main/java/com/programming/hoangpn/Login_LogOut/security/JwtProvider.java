@@ -66,7 +66,7 @@ public class JwtProvider {
         }
     }
 
-    public boolean validateToken(String jwt) {
+    public boolean validateToken(String jwt) throws BusinessException {
         try {
             parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
         } catch (ExpiredJwtException e) {

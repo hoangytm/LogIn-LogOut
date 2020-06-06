@@ -1,5 +1,6 @@
 package com.programming.hoangpn.Login_LogOut.controller;
 
+import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenController {
     @GetMapping
     public String checkAuthen() {
-        return " success";
+        System.out.println(" success");
+        throw new BusinessException("han doof doc khong");
     }
 
     @GetMapping("/au")

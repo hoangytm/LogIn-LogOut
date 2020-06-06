@@ -40,14 +40,14 @@ public class AuthService {
 
 
     @Transactional(readOnly = true)
-    public User getCurrentUser() {
+    public User getCurrentUser()  {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
         return userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException("User name not found - " + principal.getUsername()));
     }
 
-    public AuthenticationResponse login(LoginRequest loginRequest) {
+    public AuthenticationResponse login(LoginRequest loginRequest)  {
         try {
             Authentication authenticate = authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername()
@@ -61,14 +61,14 @@ public class AuthService {
                     .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                     .username(loginRequest.getUsername())
                     .build();
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new BusinessException("username or password incorrect");
         }
 
 
     }
 
-    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest)  {
         refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
         String token = jwtProvider.generateTokenWithUserName(refreshTokenRequest.getUsername());
         return AuthenticationResponse.builder()

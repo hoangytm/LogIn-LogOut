@@ -26,7 +26,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) {
+    public UserDetails loadUserByUsername(String username) throws BusinessException{
         Optional<User> userOptional = userRepository.findByUsername(username);
         User user = userOptional
                 .orElseThrow(() -> new BusinessException("No user " +
