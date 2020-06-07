@@ -33,14 +33,5 @@ public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
         );
         response.getOutputStream().println(ConvertToJson.convertObjectToJson(new ResponseEntity<>(apiException, badRequest).getBody()));
 
-//        response.setContentType("application/json");
-//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//        try {
-//            response.getOutputStream().println(ConvertToJson.convertObjectToJson(businessException));
-////          response.getOutputStream().println("{ \"error\": \"" + authenticationException.getMessage() + "\" }");
-//        } catch (java.io.IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
 }
