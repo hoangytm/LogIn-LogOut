@@ -1,6 +1,7 @@
 package com.programming.hoangpn.Login_LogOut.controller;
 
 import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
+import com.programming.hoangpn.Login_LogOut.model.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +20,9 @@ public class AuthenController {
     }
 
     @GetMapping("/au")
-    public String notAuthen() {
+    public ApiResponse notAuthen() {
         System.out.println("please say something");
-//        throw new BusinessException("sai mat khuA");
-        return "success";
+        ApiResponse apiResponse = ApiResponse.builder().code(200).message("success").status(200).data("success").build();
+        return apiResponse;
     }
 }
