@@ -26,11 +26,7 @@ import java.time.Instant;
 @Transactional
 public class AuthService {
     @Autowired
-    private PasswordEncoder passwordEncoder;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private VerificationTokenRepository verificationTokenRepository;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired

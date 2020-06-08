@@ -1,4 +1,4 @@
-package com.programming.hoangpn.springredditclone;
+package com.programming.hoangpn.Login_LogOut;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class SpringRedditCloneApplicationTests {
+public class LogIn_LogOutApplicationTests {
 
 	@Test
 	public void contextLoads() {
