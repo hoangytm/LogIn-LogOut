@@ -4,6 +4,7 @@ import com.programming.hoangpn.Login_LogOut.dto.AuthenticationResponse;
 import com.programming.hoangpn.Login_LogOut.dto.LoginRequest;
 import com.programming.hoangpn.Login_LogOut.dto.RefreshTokenRequest;
 import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
+import com.programming.hoangpn.Login_LogOut.model.ApiResponse;
 import com.programming.hoangpn.Login_LogOut.service.AuthService;
 import com.programming.hoangpn.Login_LogOut.service.RefreshTokenService;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,8 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) throws BusinessException {
+    public ApiResponse logout(@Valid @RequestBody RefreshTokenRequest refreshTokenRequest) throws BusinessException {
         refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
-        return ResponseEntity.status(OK).body("Refresh Token Deleted Successfully!!");
+        return new ApiResponse().builder().code(200).message("logout success").build();
     }
 }

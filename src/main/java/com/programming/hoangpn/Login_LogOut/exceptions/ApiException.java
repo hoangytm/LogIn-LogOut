@@ -13,7 +13,7 @@ public class ApiException {
     public final String message;
     //    public final Throwable throwable;
     public final HttpStatus status;
-    public final int error_code = HttpStatus.BAD_REQUEST.value();
+    public final int code = HttpStatus.BAD_REQUEST.value();
     public final ZonedDateTime timestamp;
 
     public ApiException(String message, HttpStatus status, ZonedDateTime timestamp) {
