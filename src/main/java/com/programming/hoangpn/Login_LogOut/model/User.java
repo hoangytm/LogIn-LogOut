@@ -8,18 +8,15 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import java.time.Instant;
-
-import static javax.persistence.GenerationType.IDENTITY;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 public class User {
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "ID")
     private Long userId;
     @NotBlank(message = "Username is required")
@@ -33,6 +30,6 @@ public class User {
     @NotEmpty(message = "Email is required")
     private String email;
     //    private Instant created;
-    @Column(name = "ENABLED")
-    private boolean enabled;
+//    @Column(name = "ENABLED")
+//    private boolean enabled;
 }
