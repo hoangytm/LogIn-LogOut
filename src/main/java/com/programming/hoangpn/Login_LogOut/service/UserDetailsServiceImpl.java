@@ -4,6 +4,7 @@ import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
 import com.programming.hoangpn.Login_LogOut.model.User;
 import com.programming.hoangpn.Login_LogOut.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -23,15 +24,18 @@ import static java.util.Collections.singletonList;
 @Primary
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+    @Autowired
+    private LoginAttemptService loginAttemptService;
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws BusinessException{
-        Optional<User> userOptional = userRepository.findByUsername(username);
-        User user = userOptional
+    public UserDetails loadUserByUsername(String username) {
+        User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new BusinessException("No user " +
                         "Found with username : " + username));
-
+        if (loginAttemptService.isBlocked(username)) {
+            throw new BusinessException("this user was blocked");
+        }
         return new org.springframework.security
                 .core.userdetails.User(user.getUsername(), user.getPassword(),
                 true, true, true,

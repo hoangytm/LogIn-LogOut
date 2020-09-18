@@ -29,6 +29,8 @@ public class User {
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
+    @Column(name = "IS_ACTIVE")
+    private Integer isActive;
     //    private Instant created;
 //    @Column(name = "ENABLED")
 //    private boolean enabled;

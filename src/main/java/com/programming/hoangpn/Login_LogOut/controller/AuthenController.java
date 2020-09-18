@@ -22,7 +22,6 @@ public class AuthenController {
     @GetMapping("/au")
     public ApiResponse notAuthen() {
         System.out.println("please say something");
-        ApiResponse apiResponse = ApiResponse.builder().code(200).message("success").status(200).data("success").build();
-        return apiResponse;
+        return  ApiResponse.builder().code(200).message("success").status(200).data("success").build();
     }
 }

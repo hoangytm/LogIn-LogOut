@@ -18,7 +18,6 @@ import java.time.ZonedDateTime;
  */
 
 @ControllerAdvice
-
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = {BusinessException.class})
     public ResponseEntity<Object> handleExceptionBusiness(BusinessException e) {
