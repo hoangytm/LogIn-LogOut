@@ -31,7 +31,4 @@ public class User {
     private String email;
     @Column(name = "IS_ACTIVE")
     private Integer isActive;
-    //    private Instant created;
-//    @Column(name = "ENABLED")
-//    private boolean enabled;
 }

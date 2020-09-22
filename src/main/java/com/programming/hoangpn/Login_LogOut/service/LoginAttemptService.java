@@ -14,8 +14,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Component
 public class LoginAttemptService {
-
-
     private LoadingCache<String, Integer> attemptsCache;
 
     public LoginAttemptService() {

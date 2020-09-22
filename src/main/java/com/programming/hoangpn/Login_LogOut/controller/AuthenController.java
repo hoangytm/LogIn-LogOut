@@ -16,7 +16,7 @@ public class AuthenController {
     @GetMapping
     public String checkAuthen() {
         System.out.println(" success");
-        throw new BusinessException("han doof doc khong");
+        throw new BusinessException("exception");
     }
 
     @GetMapping("/au")

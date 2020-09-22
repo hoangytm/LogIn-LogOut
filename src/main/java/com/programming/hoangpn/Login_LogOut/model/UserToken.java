@@ -35,7 +35,9 @@ public class UserToken {
     private String ip;
     @Column(name = "DEVICE")
     private String device;
+    @Column(name = "BROWSER")
+    private String browser;
     @Column(name = "IS_ACTIVE")
-    private int isActive;
+    private String  isActive;
 
 }

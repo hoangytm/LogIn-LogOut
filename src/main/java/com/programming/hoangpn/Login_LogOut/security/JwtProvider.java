@@ -1,13 +1,17 @@
 package com.programming.hoangpn.Login_LogOut.security;
 
 import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
+import com.programming.hoangpn.Login_LogOut.model.UserToken;
+import com.programming.hoangpn.Login_LogOut.repository.UserTokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +19,9 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.List;
 
+import static com.programming.hoangpn.Login_LogOut.ultils.Constant.ACTIVE;
 import static io.jsonwebtoken.Jwts.parser;
 import static java.util.Date.from;
 
@@ -25,6 +31,8 @@ public class JwtProvider {
     private KeyStore keyStore;
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
+    @Autowired
+    private UserTokenRepository userTokenRepository;
 
     @PostConstruct
     public void init() {
@@ -67,6 +75,9 @@ public class JwtProvider {
 
     public boolean validateToken(String jwt) throws BusinessException {
         try {
+            // check in black list
+            List<UserToken> userTokens = userTokenRepository.findByToKenAndIsActive(jwt, ACTIVE);
+            if (userTokens == null || userTokens.size() == 0) throw new BusinessException("token invalid");
             parser().setSigningKey(getPublickey()).parseClaimsJws(jwt);
         } catch (ExpiredJwtException e) {
             throw new BusinessException("token expired");

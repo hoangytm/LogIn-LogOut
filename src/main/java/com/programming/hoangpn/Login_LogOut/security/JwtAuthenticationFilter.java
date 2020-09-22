@@ -29,15 +29,17 @@ import static com.programming.hoangpn.Login_LogOut.ultils.ConvertToJson.convertO
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtProvider jwtProvider;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final JwtProvider jwtProvider;
+    private final UserDetailsService userDetailsService;
+
+    public JwtAuthenticationFilter(JwtProvider jwtProvider, UserDetailsService userDetailsService) {
+        this.jwtProvider = jwtProvider;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
-
                                     FilterChain filterChain) throws BusinessException, ServletException, IOException {
         try {
             String jwt = getJwtFromRequest(request);
@@ -58,8 +60,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     badRequest, ZonedDateTime.now(ZoneId.of("Z"))
             );
             response.getOutputStream().println(convertObjectToJson(new ResponseEntity<>(apiException, badRequest).getBody()));
-//            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-//            response.getWriter().write(convertObjectToJson(errorResponse));
         }
 
     }

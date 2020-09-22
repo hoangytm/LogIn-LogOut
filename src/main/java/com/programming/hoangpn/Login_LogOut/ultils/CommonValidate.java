@@ -1,5 +1,8 @@
 package com.programming.hoangpn.Login_LogOut.ultils;
 
+import lombok.extern.slf4j.Slf4j;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -7,6 +10,7 @@ import java.util.regex.Pattern;
  * @author PhanHoang
  * 6/8/2020
  */
+@Slf4j
 public class CommonValidate {
     private static Pattern pattern;
     private static Matcher matcher;

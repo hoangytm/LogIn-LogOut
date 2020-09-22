@@ -1,5 +1,4 @@
 package com.programming.hoangpn.Login_LogOut.service;
-
 import com.programming.hoangpn.Login_LogOut.dto.AuthenticationResponse;
 import com.programming.hoangpn.Login_LogOut.dto.LoginRequest;
 import com.programming.hoangpn.Login_LogOut.dto.RefreshTokenRequest;
@@ -19,13 +18,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.Date;
+
+import static com.programming.hoangpn.Login_LogOut.ultils.Constant.ACTIVE;
 
 @Service
 @AllArgsConstructor
@@ -42,7 +42,7 @@ public class AuthService {
     @Autowired
     private UserTokenRepository userTokenRepository;
     @Autowired
-    private CommonService commonService;
+    private PublishEventService publishEventService;
 
     @Transactional(readOnly = true)
     public User getCurrentUser() {
@@ -66,7 +66,6 @@ public class AuthService {
             HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
                     .currentRequestAttributes())
                     .getRequest();
-            String device = request.getHeader("User-Agent");
             String ip = "";
             if (request != null) {
                 ip = request.getHeader("X-FORWARDED-FOR");
@@ -79,21 +78,23 @@ public class AuthService {
                     .userName(loginRequest.getUsername())
                     .createTime(new Date())
                     .ip(ip)
-                    .device(device)
+                    .device(CommonService.getDevice(request))
+                    .browser(CommonService.getBrowser(request))
+                    .isActive(ACTIVE)
                     .build();
             userTokenRepository.save(userToken);
-            authenticationResponse= AuthenticationResponse.builder()
+            authenticationResponse = AuthenticationResponse.builder()
                     .authenticationToken(token)
                     .refreshToken(refreshTokenService.generateRefreshToken().getToken())
                     .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
                     .username(loginRequest.getUsername())
                     .build();
         } catch (Exception e) {
-            commonService.publishLoginFailedEvent(loginRequest.getUsername());
+            publishEventService.publishLoginFailedEvent(loginRequest.getUsername());
             throw new BusinessException(e.getMessage());
         }
 
-       return authenticationResponse;
+        return authenticationResponse;
     }
 
 

@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.ZoneId;
@@ -23,7 +22,7 @@ import java.time.ZonedDateTime;
 @Configuration("restAuthenticationEntryPoint")
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
-    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, ServletException, java.io.IOException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authenticationException) throws IOException, java.io.IOException {
 
         HttpStatus badRequest = HttpStatus.BAD_REQUEST;
         BusinessException e = new BusinessException("you did not have authorization for access this link");
