@@ -2,7 +2,7 @@ package com.programming.hoangpn.Login_LogOut.config;
 
 import com.programming.hoangpn.Login_LogOut.exceptions.ApiException;
 import com.programming.hoangpn.Login_LogOut.exceptions.BusinessException;
-import com.programming.hoangpn.Login_LogOut.ultils.ConvertToJson;
+import com.programming.hoangpn.Login_LogOut.utils.ConvertToJson;
 import io.jsonwebtoken.io.IOException;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;

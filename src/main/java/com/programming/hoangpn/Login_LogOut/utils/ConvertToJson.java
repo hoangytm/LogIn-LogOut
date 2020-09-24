@@ -1,4 +1,4 @@
-package com.programming.hoangpn.Login_LogOut.ultils;
+package com.programming.hoangpn.Login_LogOut.utils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

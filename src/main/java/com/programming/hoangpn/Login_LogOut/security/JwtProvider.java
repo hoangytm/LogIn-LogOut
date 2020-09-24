@@ -21,7 +21,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
-import static com.programming.hoangpn.Login_LogOut.ultils.Constant.ACTIVE;
+import static com.programming.hoangpn.Login_LogOut.utils.Constant.ACTIVE;
 import static io.jsonwebtoken.Jwts.parser;
 import static java.util.Date.from;
 

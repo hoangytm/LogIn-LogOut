@@ -8,7 +8,7 @@ import com.programming.hoangpn.Login_LogOut.model.UserToken;
 import com.programming.hoangpn.Login_LogOut.repository.UserRepository;
 import com.programming.hoangpn.Login_LogOut.repository.UserTokenRepository;
 import com.programming.hoangpn.Login_LogOut.security.JwtProvider;
-import com.programming.hoangpn.Login_LogOut.ultils.CommonService;
+import com.programming.hoangpn.Login_LogOut.utils.CommonService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.Instant;
 import java.util.Date;
 
-import static com.programming.hoangpn.Login_LogOut.ultils.Constant.ACTIVE;
+import static com.programming.hoangpn.Login_LogOut.utils.Constant.ACTIVE;
 
 @Service
 @AllArgsConstructor

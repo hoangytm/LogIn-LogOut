@@ -179,25 +179,18 @@
             <version>1.18.12</version>
             <scope>provided</scope>
         </dependency>
+        <!-- mvn install:install-file -Dfile=lib/guava-20.0.jar -DgroupId=com.google -DartifactId=guava-20.0 -Dversion=1.0 -Dpackaging=jar -->
+        <dependency>
+            <groupId>com.google</groupId>
+            <artifactId>guava-20.0</artifactId>
+            <version>1.0</version>
+        </dependency>
+
 
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>default-war</id>
-                        <phase>prepare-package</phase>
-                        <configuration>
-                            <failOnMissingWebXml>false</failOnMissingWebXml>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

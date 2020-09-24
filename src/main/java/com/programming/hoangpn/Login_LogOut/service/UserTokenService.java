@@ -2,17 +2,13 @@ package com.programming.hoangpn.Login_LogOut.service;
 
 import com.programming.hoangpn.Login_LogOut.model.UserToken;
 import com.programming.hoangpn.Login_LogOut.repository.UserTokenRepository;
-import com.programming.hoangpn.Login_LogOut.ultils.CommonService;
-import com.programming.hoangpn.Login_LogOut.ultils.Constant;
-import org.omg.PortableInterceptor.ACTIVE;
+import com.programming.hoangpn.Login_LogOut.utils.CommonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
 
-import static com.programming.hoangpn.Login_LogOut.ultils.Constant.*;
+import static com.programming.hoangpn.Login_LogOut.utils.Constant.*;
 
 /**
  * @author PhanHoang

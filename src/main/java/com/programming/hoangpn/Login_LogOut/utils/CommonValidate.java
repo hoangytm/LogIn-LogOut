@@ -1,8 +1,7 @@
-package com.programming.hoangpn.Login_LogOut.ultils;
+package com.programming.hoangpn.Login_LogOut.utils;
 
 import lombok.extern.slf4j.Slf4j;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,5 +19,10 @@ public class CommonValidate {
         pattern = Pattern.compile(TEXT_PATTERN);
         matcher = pattern.matcher(inputText);
         return matcher.matches();
+    }
+
+    public static Object replaceNullByEmpty(Object obj) {
+        if (obj == null) return "";
+        return obj;
     }
 }

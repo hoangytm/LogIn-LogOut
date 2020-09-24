@@ -1,16 +1,16 @@
 package com.programming.hoangpn.Login_LogOut.extractPDF;
 
-import com.itextpdf.forms.PdfAcroForm;
-import com.itextpdf.kernel.pdf.*;
-import com.itextpdf.kernel.pdf.annot.PdfWidgetAnnotation;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfReader;
 import com.itextpdf.signatures.*;
-import com.itextpdf.test.ITextTest;
 import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.cert.ocsp.BasicOCSPResp;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.tsp.TimeStampToken;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
 import java.security.Security;
@@ -20,31 +20,17 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Due to import control restrictions by the governments of a few countries,
- * the encryption libraries shipped by default with the Java SDK restrict the
- * length, and as a result the strength, of encryption keys. Be aware that in
- * this sample by using {@link ITextTest#removeCryptographyRestrictions()} we
- * remove cryptography restrictions via reflection for testing purposes.
- * <br/>
- * For more conventional way of solving this problem you need to replace the
- * default security JARs in your Java installation with the Java Cryptography
- * Extension (JCE) Unlimited Strength Jurisdiction Policy Files. These JARs
- * are available for download from http://java.oracle.com/ in eligible countries.
- */
 @Slf4j
 public class SignatureTestHelper {
-    //
-//    public static final String ADOBE = "./src/test/resources/encryption/adobeRootCA.cer";
-//    public static final String CACERT = "./src/test/resources/encryption/CACertSigningAuthority.crt";
-//    public static final String BRUNO = "./src/test/resources/encryption/bruno.crt";
-    public static final String EXAMPLE = "C:\\Users\\Dell\\Downloads\\Telegram Desktop\\File mẫu kiểm tra chữ ký số.pdf";
+
+    public static final String EXAMPLE = "C:\\Users\\Dell\\Desktop\\30.signed.pdf";
     public static final String EXAMPLE_INVALID = "C:\\Users\\Dell\\Downloads\\Telegram Desktop\\3.pdf";
     private static String errorMessage;
 
-    public Signature getSignatureInfor() throws IOException, GeneralSecurityException {
+    public Signature getSignatureInfor(MultipartFile uploadFile) throws IOException, GeneralSecurityException {
         SignatureTestHelper signatureTestHelper = new SignatureTestHelper();
-        List<SignatureInfo> signatureInfos = signatureTestHelper.verifySignaturesForDocument(EXAMPLE);
+        InputStream inputStream =  new BufferedInputStream(uploadFile.getInputStream());
+        List<SignatureInfo> signatureInfos = signatureTestHelper.verifySignaturesForDocument(inputStream);
         log.info("H- errorMessage: " + errorMessage);
         Signature signature = Signature.builder()
                 .signatureInfos(signatureInfos)
@@ -55,13 +41,13 @@ public class SignatureTestHelper {
         return signature;
     }
 
-    private List<SignatureInfo> verifySignaturesForDocument(String documentPath)
+    private List<SignatureInfo> verifySignaturesForDocument( InputStream inputStream)
             throws IOException, GeneralSecurityException {
         List<SignatureInfo> signatureInfos = null;
         BouncyCastleProvider provider = new BouncyCastleProvider();
         Security.addProvider(provider);
-        PdfReader reader = new PdfReader(documentPath);
-        PdfDocument pdfDoc = new PdfDocument(new PdfReader(documentPath));
+        PdfReader reader = new PdfReader(inputStream);
+        PdfDocument pdfDoc = new PdfDocument(reader);
         SignatureUtil signUtil = new SignatureUtil(pdfDoc);
         List<String> names = signUtil.getSignatureNames();
         signatureInfos = verifySignatures(signUtil, names);
@@ -93,7 +79,7 @@ public class SignatureTestHelper {
         return signatureInfos;
     }
 
-    private SignatureInfo verifyCertificates(PdfPKCS7 pkcs7, SignatureInfo signatureInfo) throws GeneralSecurityException, IOException {
+    private void verifyCertificates(PdfPKCS7 pkcs7, SignatureInfo signatureInfo) throws GeneralSecurityException, IOException {
         KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
 
 //        initKeyStoreForVerification(ks);
@@ -119,7 +105,6 @@ public class SignatureTestHelper {
         //Checking validity of the document at the time of signing
         checkRevocation(pkcs7, signCert, issuerCert, cal.getTime());
         signatureInfo.setCertificateInfos(certificateInfos);
-        return signatureInfo;
     }
 
     private void checkCertificateInfo(X509Certificate cert, Date signDate, PdfPKCS7 pkcs7, CertificateInfo certificateInfo) throws GeneralSecurityException {
